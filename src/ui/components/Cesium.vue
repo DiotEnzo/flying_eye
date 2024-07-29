@@ -1,5 +1,5 @@
 <template>
-  <container id="container-cesium" style="height: 70%"></container>
+  <container id="container-cesium"></container>
 </template>
 <script setup lang="ts">
 import { createCesiumViewer } from "../../infrastructure/cesiumViewer";
