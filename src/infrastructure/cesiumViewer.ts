@@ -5,6 +5,9 @@ import positiveY from "@/assets/images/skybox/06h+00.jpg";
 import negativeY from "@/assets/images/skybox/18h+00.jpg";
 import positiveZ from "@/assets/images/skybox/06h+90.jpg";
 import negativeZ from "@/assets/images/skybox/06h-90.jpg";
+import mapboxDark from "@/assets/images/mapbox/mapboxDark.jpg";
+import mapBoxSatellite from "@/assets/images/mapbox/mapboxSatellite.png";
+import openStreetMap from "@/assets/images/mapbox/openStreetMap.png";
 
 export const createCesiumViewer = (container: HTMLElement): Cesium.Viewer => {
   Cesium.Camera.DEFAULT_VIEW_RECTANGLE = Cesium.Rectangle.fromDegrees(
@@ -53,23 +56,46 @@ export const createCesiumViewerConstructorOptions =
 
 export const createProviderViewModels = (): Cesium.ProviderViewModel[] => {
   const ellipsoid = Cesium.Ellipsoid.WGS84;
+  const mapboxToken =
+    "pk.eyJ1IjoiZXhvdHJhaWwiLCJhIjoiY2szcTNnZmFkMDkzbzNtcDhzMm0ydmJ5YyJ9.5so1MY_ou6yoPmLAzLchUg";
 
   return [
     new Cesium.ProviderViewModel({
-      name: "Natural Earth II",
-      tooltip: "Natural Earth II tiles",
-      iconUrl: Cesium.buildModuleUrl(
-        "Widgets/Images/ImageryProviders/naturalEarthII.png"
-      ),
-      creationFunction: async () => {
-        return await Cesium.TileMapServiceImageryProvider.fromUrl(
-          Cesium.buildModuleUrl("Assets/Textures/NaturalEarthII"),
-          {
-            credit: "Natural Earth II",
-            ellipsoid: ellipsoid,
-          }
-        );
+      name: "Mapbox Dark",
+      tooltip: "Mapbox Dark",
+      iconUrl: mapboxDark,
+      creationFunction: () => {
+        return new Cesium.MapboxStyleImageryProvider({
+          styleId: "dark-v10",
+          accessToken: mapboxToken,
+          ellipsoid: ellipsoid,
+        });
       },
+    }),
+
+    new Cesium.ProviderViewModel({
+      name: "Mapbox Satellite",
+      tooltip: "Mapbox Satellite",
+      iconUrl: mapBoxSatellite,
+      creationFunction: () => {
+        return new Cesium.MapboxImageryProvider({
+          mapId: "mapbox.satellite",
+          accessToken: mapboxToken,
+          ellipsoid: ellipsoid,
+        });
+      },
+    }),
+
+    new Cesium.ProviderViewModel({
+      name: "OSM Streets",
+      tooltip: "OSM streets",
+      iconUrl: openStreetMap,
+      creationFunction: () =>
+        new Cesium.OpenStreetMapImageryProvider({
+          url: "https://a.tile.openstreetmap.org/",
+          ellipsoid: ellipsoid,
+          credit: "© OpenStreetMap contributors",
+        }),
     }),
   ];
 };
