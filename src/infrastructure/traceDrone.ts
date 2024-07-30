@@ -1,5 +1,10 @@
 import * as Cesium from "cesium";
-export const traceDroneOnMap = (viewer, json, positionNumber, color) => {
+export const traceDroneOnMap = (
+  viewer: any,
+  json: any,
+  positionNumber: any,
+  color: any
+) => {
   const flightRecords = json.flight_records;
   const dates = Object.keys(flightRecords);
   const events: any[] = [];
@@ -25,7 +30,6 @@ export const traceDroneOnMap = (viewer, json, positionNumber, color) => {
 
   const heading = Cesium.Math.toRadians(event.records.attitude_head);
   const pitch = Cesium.Math.toRadians(event.records.attitude_pitch);
-  const roll = Cesium.Math.toRadians(event.records.attitude_roll);
   const distance = 1;
   const endPosition = Cesium.Cartesian3.fromDegrees(
     event.records.longitude +
@@ -46,7 +50,7 @@ export const traceDroneOnMap = (viewer, json, positionNumber, color) => {
   });
 };
 
-export const traceAllSequences = (viewer, json) => {
+export const traceAllSequences = (viewer: any, json: any) => {
   const flightRecords = json.flight_records;
   const dates = Object.keys(flightRecords);
   const events: any[] = [];
